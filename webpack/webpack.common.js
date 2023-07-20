@@ -43,7 +43,7 @@ module.exports = {
         },
     },
     plugins: [
-        new HtmlWebpackPlugin({ gameName: 'Candy Crush', template: 'index.html' }),
+        new HtmlWebpackPlugin({ gameName: 'Tank', template: 'index.html' }),
         new CopyWebpackPlugin({
             patterns: [
                 { from: 'assets', to: 'assets' },
