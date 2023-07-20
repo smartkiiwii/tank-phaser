@@ -26,8 +26,7 @@
     "workbox-webpack-plugin": "^7.0.0"
   },
   "dependencies": {
-    "phaser": "^3.60.0",
-    "phaser3-rex-plugins": "^1.60.3"
+    "phaser": "^3.60.0"
   },
   "scripts": {
     "dev": "webpack serve --config webpack/webpack.dev.js",
