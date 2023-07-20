@@ -1,6 +1,8 @@
 import Bullet from '../bullet/Bullet'
 import { IImageConstructor } from '@/interfaces/image.interface'
 
+const HANDLING = 0.05
+
 export default class Player extends Phaser.GameObjects.Image {
     body!: Phaser.Physics.Arcade.Body // defined in initImage()
 
@@ -18,9 +20,7 @@ export default class Player extends Phaser.GameObjects.Image {
 
     // input
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys // defined in initImage()
-    private rotateKeyLeft!: Phaser.Input.Keyboard.Key // defined in initImage()
-    private rotateKeyRight!: Phaser.Input.Keyboard.Key // defined in initImage()
-    private shootingKey!: Phaser.Input.Keyboard.Key // defined in initImage()
+    private shootingKey!: Phaser.Input.Pointer // defined in initImage()
 
     public getBullets(): Phaser.GameObjects.Group {
         return this.bullets
@@ -66,9 +66,7 @@ export default class Player extends Phaser.GameObjects.Image {
         }
 
         this.cursors = this.scene.input.keyboard.createCursorKeys()
-        this.rotateKeyLeft = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
-        this.rotateKeyRight = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-        this.shootingKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+        this.shootingKey = this.scene.input.mousePointer
 
         // physics
         this.scene.physics.world.enable(this)
@@ -90,36 +88,68 @@ export default class Player extends Phaser.GameObjects.Image {
     }
 
     private handleInput() {
-        // move tank forward
-        // small corrections with (- MATH.PI / 2) to align tank correctly
+        // move barrel towards mouse position
+        const mousePosition = {
+            x: this.scene.input.mousePointer.x + this.scene.cameras.main.scrollX,
+            y: this.scene.input.mousePointer.y + this.scene.cameras.main.scrollY,
+        }
+
+        this.barrel.rotation = Phaser.Math.Angle.BetweenPoints(this.barrel, mousePosition) + Math.PI / 2
+
+        // handle movement
+        const targetDirection = {
+            x: 0,
+            y: 0,
+        }
+
         if (this.cursors.up.isDown) {
+            targetDirection.y = -1
+        }
+
+        if (this.cursors.down.isDown) {
+            targetDirection.y = 1
+        }
+
+        if (this.cursors.left.isDown) {
+            targetDirection.x = -1
+        }
+
+        if (this.cursors.right.isDown) {
+            targetDirection.x = 1
+        }
+
+        if (targetDirection.x === 0 && targetDirection.y === 0) {
+            this.body.setVelocity(0, 0)
+            return
+        }
+
+        const targetRotation = Math.atan2(targetDirection.y, targetDirection.x)    
+
+        // small corrections with (- MATH.PI / 2) to align tank correctly
+        const currRotation = this.rotation - Math.PI / 2
+
+        const diffFromCurr = Phaser.Math.Angle.Wrap(targetRotation - currRotation)
+
+        // if the difference is closer to the current rotation, move forward, else move backwards
+        if (Math.abs(diffFromCurr) < Math.PI / 3 * 2) {
             this.scene.physics.velocityFromRotation(
-                this.rotation - Math.PI / 2,
+                currRotation,
                 this.speed,
                 this.body.velocity
             )
-        } else if (this.cursors.down.isDown) {
+
+            // rotate tank towards the target rotation by a small amount
+            this.rotation += diffFromCurr * HANDLING
+        } else {
             this.scene.physics.velocityFromRotation(
-                this.rotation - Math.PI / 2,
+                currRotation,
                 -this.speed,
                 this.body.velocity
             )
-        } else {
-            this.body.setVelocity(0, 0)
-        }
 
-        // rotate tank
-        if (this.cursors.left.isDown) {
-            this.rotation -= 0.02
-        } else if (this.cursors.right.isDown) {
-            this.rotation += 0.02
-        }
-
-        // rotate barrel
-        if (this.rotateKeyLeft.isDown) {
-            this.barrel.rotation -= 0.05
-        } else if (this.rotateKeyRight.isDown) {
-            this.barrel.rotation += 0.05
+            // rotate tank's rear towards the target rotation by a small amount
+            const diffFromCurrRear = Phaser.Math.Angle.Wrap(targetRotation - currRotation - Math.PI)
+            this.rotation += diffFromCurrRear * HANDLING
         }
     }
 

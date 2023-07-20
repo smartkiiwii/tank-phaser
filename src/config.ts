@@ -8,6 +8,9 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
     version: '2.0',
     width: 1600,
     height: 1200,
+    scale: {
+        mode: Phaser.Scale.RESIZE,
+    },
     zoom: 0.6,
     type: Phaser.AUTO,
     parent: 'game',
