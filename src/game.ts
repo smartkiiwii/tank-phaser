@@ -1,6 +1,7 @@
 import 'phaser'
 import { GameConfig } from './config'
 import Button from './objects/container/button/Button'
+import Panel from './objects/container/panel/Panel'
 
 Phaser.GameObjects.GameObjectFactory.register(
     'button',
@@ -10,6 +11,17 @@ Phaser.GameObjects.GameObjectFactory.register(
         this.displayList.add(button)
 
         return button
+    }
+)
+
+Phaser.GameObjects.GameObjectFactory.register(
+    'panel',
+    function (this: Phaser.GameObjects.GameObjectFactory, config: PanelConfig) {
+        const panel = new Panel(this.scene, config)
+
+        this.displayList.add(panel)
+
+        return panel
     }
 )
 
