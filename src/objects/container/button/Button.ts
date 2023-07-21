@@ -9,8 +9,8 @@ export const ButtonCallbackType = {
 export type ButtonCallbackType = (typeof ButtonCallbackType)[keyof typeof ButtonCallbackType]
 
 export default class Button extends Phaser.GameObjects.Container {
-    private text: ButtonText
-    private background: ButtonBackground
+    private text: Phaser.GameObjects.Text | Phaser.GameObjects.BitmapText
+    private background: Phaser.GameObjects.NineSlice
     private animTween: Phaser.Tweens.Tween | null
 
     constructor(scene: Phaser.Scene, config: ButtonConfig) {
@@ -57,31 +57,31 @@ export default class Button extends Phaser.GameObjects.Container {
 
         // listen for pointerdown events on the container
         this.on('pointerdown', () => {
-            this.onDown()
+            this.displayClick()
             this.emit(ButtonCallbackType.DOWN)
         })
 
         // listen for pointerup events on the container
         this.on('pointerup', () => {
-            this.onUp()
+            this.displayRest()
             this.emit(ButtonCallbackType.UP)
             this.emit(ButtonCallbackType.CLICK)
         })
 
         // listen for pointerover events on the container
         this.on('pointerover', () => {
-            this.onOver()
+            this.displayHover()
             this.emit(ButtonCallbackType.OVER)
         })
 
         // listen for pointerout events on the container
         this.on('pointerout', () => {
-            this.onOut()
+            this.displayRest()
             this.emit(ButtonCallbackType.OUT)
         })
     }
 
-    private onDown(): void {
+    private displayClick(): void {
         if (this.animTween?.isPlaying()) this.animTween.stop()
 
         this.animTween = this.scene.tweens.add({
@@ -93,19 +93,7 @@ export default class Button extends Phaser.GameObjects.Container {
         })
     }
 
-    private onUp(): void {
-        if (this.animTween?.isPlaying()) this.animTween.stop()
-
-        this.animTween = this.scene.tweens.add({
-            targets: this,
-            scaleX: 1,
-            scaleY: 1,
-            duration: 100,
-            ease: Phaser.Math.Easing.Sine.InOut,
-        })
-    }
-
-    private onOver(): void {
+    private displayHover(): void {
         if (this.animTween?.isPlaying()) this.animTween.stop()
 
         this.animTween = this.scene.tweens.add({
@@ -117,7 +105,7 @@ export default class Button extends Phaser.GameObjects.Container {
         })
     }
 
-    private onOut(): void {
+    private displayRest(): void {
         if (this.animTween?.isPlaying()) this.animTween.stop()
 
         this.animTween = this.scene.tweens.add({
