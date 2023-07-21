@@ -81,6 +81,12 @@
         "type": "image",
         "key": "treeLarge",
         "url": "./assets/obstacles/tree-large.png"
+      },
+      {
+        "type": "atlas",
+        "key": "ui",
+        "textureURL": "./assets/sprites/spritesheets/ui.png",
+        "atlasURL": "./assets/sprites/spritesheets/ui.json"
       }
     ]
   }
