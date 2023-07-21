@@ -87,6 +87,30 @@
         "key": "ui",
         "textureURL": "./assets/sprites/spritesheets/ui.png",
         "atlasURL": "./assets/sprites/spritesheets/ui.json"
+      },
+      {
+        "type": "audio",
+        "key": "bulletFire",
+        "url": "./assets/audio/bullet/fire.wav",
+        "autoDecode": true
+      },
+      {
+        "type": "audio",
+        "key": "bulletHitWall",
+        "url": "./assets/audio/bullet/hit_wall.wav",
+        "autoDecode": true
+      },
+      {
+        "type": "audio",
+        "key": "bulletHitTank",
+        "url": "./assets/audio/bullet/hit_tank.wav",
+        "autoDecode": true
+      },
+      {
+        "type": "audio",
+        "key": "tankExplode",
+        "url": "./assets/audio/bullet/explosion.wav",
+        "autoDecode": true
       }
     ]
   }

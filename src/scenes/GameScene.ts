@@ -170,20 +170,22 @@ export class GameScene extends Phaser.Scene {
         })
     }
 
-    private bulletHitLayer(
+    private bulletHitLayer = (
         bullet: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile
-    ): void {
+    ) => {
         if (!(bullet instanceof Bullet)) {
             throw new Error('Bullet is not instance of Bullet')
         }
 
+        this.sound.play('bulletHitWall', {volume: 0.01})
+
         bullet.destroy()
     }
 
-    private bulletHitObstacles(
+    private bulletHitObstacles = (
         bullet: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile,
         obstacle: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile
-    ): void {
+    ) => {
         if (!(bullet instanceof Bullet)) {
             throw new Error('Bullet is not instance of Bullet')
         }
@@ -192,13 +194,15 @@ export class GameScene extends Phaser.Scene {
             throw new Error('Obstacle is not instance of Obstacle')
         }
 
+        this.sound.play('bulletHitWall', {volume: 0.01})
+
         bullet.destroy()
     }
 
-    private enemyBulletHitPlayer(
+    private enemyBulletHitPlayer = (
         bullet: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile,
         player: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile
-    ): void {
+    ) => {
         if (!(bullet instanceof Bullet)) {
             throw new Error('Bullet is not instance of Bullet')
         }
@@ -207,14 +211,16 @@ export class GameScene extends Phaser.Scene {
             throw new Error('Player is not instance of Player')
         }
 
+        this.sound.play('bulletHitTank')
+
         bullet.destroy()
         player.updateHealth()
     }
 
-    private playerBulletHitEnemy(
+    private playerBulletHitEnemy = (
         bullet: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile,
         enemy: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile
-    ): void {
+    ) => {
         if (!(bullet instanceof Bullet)) {
             throw new Error('Bullet is not instance of Bullet')
         }
@@ -222,6 +228,8 @@ export class GameScene extends Phaser.Scene {
         if (!(enemy instanceof Enemy)) {
             throw new Error('Enemy is not instance of Enemy')
         }
+
+        this.sound.play('bulletHitTank')
 
         bullet.destroy()
         enemy.updateHealth()

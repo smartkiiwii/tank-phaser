@@ -100,6 +100,8 @@ export default class Enemy extends Phaser.GameObjects.Image {
                     })
                 )
 
+                this.scene.sound.play('bulletFire', { volume: 0.01 })
+
                 this.lastShoot = this.scene.time.now + 400
             }
         }
@@ -119,6 +121,7 @@ export default class Enemy extends Phaser.GameObjects.Image {
             this.health -= 0.05
             this.redrawLifebar()
         } else {
+            this.scene.sound.play('tankExplode', {volume: 1})
             this.health = 0
             this.active = false
         }
