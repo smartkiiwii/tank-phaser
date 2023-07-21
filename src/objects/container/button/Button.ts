@@ -3,10 +3,10 @@ export const ButtonCallbackType = {
     UP: 'button-up',
     CLICK: 'button-click',
     OVER: 'button-hover',
-    OUT: 'button-out'
+    OUT: 'button-out',
 } as const
 
-export type ButtonCallbackType = typeof ButtonCallbackType[keyof typeof ButtonCallbackType]
+export type ButtonCallbackType = (typeof ButtonCallbackType)[keyof typeof ButtonCallbackType]
 
 export default class Button extends Phaser.GameObjects.Container {
     private text: ButtonText
@@ -20,7 +20,7 @@ export default class Button extends Phaser.GameObjects.Container {
         y = y ?? 0
 
         super(scene, x, y)
-        
+
         this.background = config.background
         this.add(this.background)
 
@@ -34,7 +34,9 @@ export default class Button extends Phaser.GameObjects.Container {
 
     private layout(): void {
         // center the background object
-        this.background.setOrigin(0).setPosition(-this.background.width / 2, -this.background.height / 2)
+        this.background
+            .setOrigin(0)
+            .setPosition(-this.background.width / 2, -this.background.height / 2)
 
         const textOffsetX = this.text.x
         const textOffsetY = this.text.y

@@ -94,7 +94,8 @@ export default class Player extends Phaser.GameObjects.Image {
             y: this.scene.input.mousePointer.y + this.scene.cameras.main.scrollY,
         }
 
-        this.barrel.rotation = Phaser.Math.Angle.BetweenPoints(this.barrel, mousePosition) + Math.PI / 2
+        this.barrel.rotation =
+            Phaser.Math.Angle.BetweenPoints(this.barrel, mousePosition) + Math.PI / 2
 
         // handle movement
         const targetDirection = {
@@ -123,7 +124,7 @@ export default class Player extends Phaser.GameObjects.Image {
             return
         }
 
-        const targetRotation = Math.atan2(targetDirection.y, targetDirection.x)    
+        const targetRotation = Math.atan2(targetDirection.y, targetDirection.x)
 
         // small corrections with (- MATH.PI / 2) to align tank correctly
         const currRotation = this.rotation - Math.PI / 2
@@ -131,21 +132,13 @@ export default class Player extends Phaser.GameObjects.Image {
         const diffFromCurr = Phaser.Math.Angle.Wrap(targetRotation - currRotation)
 
         // if the difference is closer to the current rotation, move forward, else move backwards
-        if (Math.abs(diffFromCurr) < Math.PI / 3 * 2) {
-            this.scene.physics.velocityFromRotation(
-                currRotation,
-                this.speed,
-                this.body.velocity
-            )
+        if (Math.abs(diffFromCurr) < (Math.PI / 3) * 2) {
+            this.scene.physics.velocityFromRotation(currRotation, this.speed, this.body.velocity)
 
             // rotate tank towards the target rotation by a small amount
             this.rotation += diffFromCurr * HANDLING
         } else {
-            this.scene.physics.velocityFromRotation(
-                currRotation,
-                -this.speed,
-                this.body.velocity
-            )
+            this.scene.physics.velocityFromRotation(currRotation, -this.speed, this.body.velocity)
 
             // rotate tank's rear towards the target rotation by a small amount
             const diffFromCurrRear = Phaser.Math.Angle.Wrap(targetRotation - currRotation - Math.PI)
