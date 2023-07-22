@@ -1,3 +1,10 @@
+export const DialogEvent = {
+    OPEN: 'OPEN',
+    CLOSE: 'CLOSE',
+} as const
+
+export type DialogEvent = typeof DialogEvent[keyof typeof DialogEvent]
+
 export default class Dialog extends Phaser.GameObjects.Container implements IDialog {
     private panel: Phaser.GameObjects.Container
     private dimmer: Phaser.GameObjects.Rectangle | null
@@ -57,6 +64,7 @@ export default class Dialog extends Phaser.GameObjects.Container implements IDia
                 alpha: 1,
                 onStart: () => {
                     this.show()
+                    this.emit(DialogEvent.OPEN)
                 },
                 onStop: () => {
                     this.panel.y = y
@@ -95,6 +103,7 @@ export default class Dialog extends Phaser.GameObjects.Container implements IDia
                 onComplete: () => {
                     this.hide()
                     this.panel.y = y
+                    this.emit(DialogEvent.CLOSE)
                 },
                 onStop: () => {
                     this.panel.y = y
