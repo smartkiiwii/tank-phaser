@@ -124,12 +124,7 @@ export default class GameOverScreen extends GameScreen {
                         topHeight: 10,
                         bottomHeight: 10,
                     }),
-                    children: [
-                        scoreText,
-                        this.highscoreText,
-                        retryButton, 
-                        returnToMenuButton
-                    ],
+                    children: [scoreText, this.highscoreText, retryButton, returnToMenuButton],
                 }),
             })
             .hide()
@@ -153,7 +148,7 @@ export default class GameOverScreen extends GameScreen {
 
                 if (this.score > highscore) {
                     highscore = this.score
-                    setPlayerData("SET_HIGHSCORE", this.score)
+                    setPlayerData('SET_HIGHSCORE', this.score)
                 }
 
                 this.highscoreText.setText(`Highscore: ${highscore}`)

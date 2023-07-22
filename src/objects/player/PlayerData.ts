@@ -1,7 +1,7 @@
 export type PlayerData = {
-    highscore: number;
+    highscore: number
     preferences: {
-        mute: boolean;
+        mute: boolean
     }
 }
 
@@ -14,7 +14,7 @@ export function loadPlayerData(): PlayerData {
             highscore: 0,
             preferences: {
                 mute: false,
-            }
+            },
         }
     }
 }
@@ -32,7 +32,7 @@ export const PlayerDataActions = {
     SET_MUTE: 'SET_MUTE',
 } as const
 
-export type PlayerDataActions = typeof PlayerDataActions[keyof typeof PlayerDataActions]
+export type PlayerDataActions = (typeof PlayerDataActions)[keyof typeof PlayerDataActions]
 
 export function setPlayerData(action: PlayerDataActions, value: number | boolean) {
     const data = loadPlayerData()

@@ -1,10 +1,10 @@
-import Button, { ButtonCallbackType } from "./Button"
+import Button, { ButtonCallbackType } from './Button'
 
 export const ToggleCallbackType = {
     TOGGLE: 'toggle',
 } as const
 
-export type ToggleCallbackType = typeof ToggleCallbackType[keyof typeof ToggleCallbackType]
+export type ToggleCallbackType = (typeof ToggleCallbackType)[keyof typeof ToggleCallbackType]
 
 export default class Toggle extends Button implements IToggle {
     private toggle: Phaser.GameObjects.Image
@@ -21,7 +21,7 @@ export default class Toggle extends Button implements IToggle {
 
         super(scene, config)
 
-        let {padding} = config
+        let { padding } = config
         padding = padding ?? 10
 
         this.toggle = scene.make.image({
@@ -32,11 +32,11 @@ export default class Toggle extends Button implements IToggle {
             scale: 1.2,
         })
         this.add(this.toggle)
-        
+
         // center toggle and text, toggle to the left, text to the right, offseted by their combined width
         Phaser.Display.Align.In.LeftCenter(this.toggle, this.background, -padding)
         Phaser.Display.Align.In.RightCenter(this.text, this.background, -padding)
-        
+
         // restore text offset
         this.text.setPosition(this.text.x + textOffset.x, this.text.y + textOffset.y)
 

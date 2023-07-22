@@ -75,17 +75,14 @@ export default class Player extends Phaser.GameObjects.Image {
 
         // score
         this.hit = 0
-        this.scoreText = this.scene.add.text(
-            0,
-            0,
-            this.getScore().toString(),
-            {
+        this.scoreText = this.scene.add
+            .text(0, 0, this.getScore().toString(), {
                 fontFamily: 'Arial',
                 fontSize: 32,
                 fontStyle: 'bold',
                 color: '#ffffff',
-            },
-        ).setDepth(10)
+            })
+            .setDepth(10)
         this.on('scoreChange', this.updateScoreText, this)
         this.emit('scoreChange')
 
