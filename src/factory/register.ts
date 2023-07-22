@@ -1,9 +1,11 @@
 import Button from '@/objects/container/button/Button'
+import Toggle from '@/objects/container/button/Toggle'
 import Dialog from '@/objects/container/dialog/Dialog'
 import Panel from '@/objects/container/panel/Panel'
 
 export default function register() {
     registerButton()
+    registerToggle()
     registerPanel()
     registerDialog()
 }
@@ -17,6 +19,19 @@ function registerButton() {
             this.displayList.add(button)
 
             return button
+        }
+    )
+}
+
+function registerToggle() {
+    Phaser.GameObjects.GameObjectFactory.register(
+        'toggle',
+        function (this: Phaser.GameObjects.GameObjectFactory, config: ToggleConfig) {
+            const toggle = new Toggle(this.scene, config)
+
+            this.displayList.add(toggle)
+
+            return toggle
         }
     )
 }

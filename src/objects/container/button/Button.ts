@@ -9,9 +9,9 @@ export const ButtonCallbackType = {
 export type ButtonCallbackType = (typeof ButtonCallbackType)[keyof typeof ButtonCallbackType]
 
 export default class Button extends Phaser.GameObjects.Container {
-    private text: Phaser.GameObjects.Text | Phaser.GameObjects.BitmapText
-    private background: Phaser.GameObjects.NineSlice
-    private animTween: Phaser.Tweens.Tween | null
+    protected text: Phaser.GameObjects.Text | Phaser.GameObjects.BitmapText
+    protected background: Phaser.GameObjects.NineSlice
+    protected animTween: Phaser.Tweens.Tween | null
 
     constructor(scene: Phaser.Scene, config: ButtonConfig) {
         let { x, y } = config
@@ -32,7 +32,7 @@ export default class Button extends Phaser.GameObjects.Container {
         this.layout()
     }
 
-    private layout(): void {
+    protected layout(): void {
         // center the background object
         this.background
             .setOrigin(0)

@@ -115,7 +115,7 @@
 					}
 				},
 				{
-					"filename": "radio-off",
+					"filename": "toggle-off",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -129,14 +129,14 @@
 						"h": 16
 					},
 					"frame": {
-						"x": 64,
+						"x": 48,
 						"y": 80,
 						"w": 16,
 						"h": 16
 					}
 				},
 				{
-					"filename": "radio-white",
+					"filename": "toggle-white",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -150,14 +150,14 @@
 						"h": 16
 					},
 					"frame": {
-						"x": 80,
-						"y": 80,
+						"x": 48,
+						"y": 96,
 						"w": 16,
 						"h": 16
 					}
 				},
 				{
-					"filename": "radio-yellow",
+					"filename": "toggle-yellow",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -171,14 +171,14 @@
 						"h": 16
 					},
 					"frame": {
-						"x": 176,
-						"y": 80,
+						"x": 144,
+						"y": 96,
 						"w": 16,
 						"h": 16
 					}
 				},
 				{
-					"filename": "radio-green",
+					"filename": "toggle-green",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -192,14 +192,14 @@
 						"h": 16
 					},
 					"frame": {
-						"x": 272,
-						"y": 80,
+						"x": 240,
+						"y": 96,
 						"w": 16,
 						"h": 16
 					}
 				},
 				{
-					"filename": "radio-orange",
+					"filename": "toggle-orange",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -213,14 +213,14 @@
 						"h": 16
 					},
 					"frame": {
-						"x": 368,
-						"y": 80,
+						"x": 336,
+						"y": 96,
 						"w": 16,
 						"h": 16
 					}
 				},
 				{
-					"filename": "radio-blue",
+					"filename": "toggle-blue",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -234,8 +234,8 @@
 						"h": 16
 					},
 					"frame": {
-						"x": 464,
-						"y": 80,
+						"x": 432,
+						"y": 96,
 						"w": 16,
 						"h": 16
 					}
