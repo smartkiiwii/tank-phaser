@@ -1,41 +1,10 @@
 import 'phaser'
 import { GameConfig } from './config'
-import Button from './objects/container/button/Button'
-import Panel from './objects/container/panel/Panel'
-import Dialog from './objects/container/dialog/Dialog'
+import registerFactory from './factory/register'
+import registerCreator from './creator/register'
 
-Phaser.GameObjects.GameObjectFactory.register(
-    'button',
-    function (this: Phaser.GameObjects.GameObjectFactory, config: ButtonConfig) {
-        const button = new Button(this.scene, config)
-
-        this.displayList.add(button)
-
-        return button
-    }
-)
-
-Phaser.GameObjects.GameObjectFactory.register(
-    'panel',
-    function (this: Phaser.GameObjects.GameObjectFactory, config: PanelConfig) {
-        const panel = new Panel(this.scene, config)
-
-        this.displayList.add(panel)
-
-        return panel
-    }
-)
-
-Phaser.GameObjects.GameObjectFactory.register(
-    'dialog',
-    function (this: Phaser.GameObjects.GameObjectFactory, config: DialogConfig) {
-        const dialog = new Dialog(this.scene, config)
-
-        this.displayList.add(dialog)
-
-        return dialog
-    }
-)
+registerFactory()
+registerCreator()
 
 export class Game extends Phaser.Game {
     constructor(config: Phaser.Types.Core.GameConfig) {

@@ -4,4 +4,10 @@ declare namespace Phaser.GameObjects {
         panel(config: PanelConfig): IPanel
         dialog(config: DialogConfig): IDialog
     }
+
+    interface GameObjectCreator {
+        button(config: ButtonConfig): Phaser.GameObjects.Container
+        panel(config: PanelConfig): IPanel
+        dialog(config: DialogConfig): IDialog
+    }
 }
