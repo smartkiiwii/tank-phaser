@@ -72,7 +72,7 @@ export default class Panel extends Phaser.GameObjects.Container implements IPane
             },
             onStop: () => {
                 this.y = y
-            }
+            },
         })
 
         return this
@@ -93,7 +93,7 @@ export default class Panel extends Phaser.GameObjects.Container implements IPane
             },
             onStop: () => {
                 this.y = y
-            }
+            },
         })
 
         return this
