@@ -53,6 +53,7 @@ export default class HUD extends Phaser.Scene {
         }
 
         this.startHUD(this.state)
+        this.huds[this.state].transitionIn()
 
         this.events.on(GameEvent.PAUSE, this.pause, this)
         this.events.on(GameEvent.RESUME, this.resume, this)
