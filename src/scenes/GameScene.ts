@@ -2,6 +2,7 @@ import Player from '@/objects/player/Player'
 import Enemy from '@/objects/enemy/Enemy'
 import Obstacle from '@/objects/obstacles/obstacle'
 import Bullet from '@/objects/bullet/Bullet'
+import { loadPlayerData } from '@/objects/player/PlayerData'
 
 export class GameScene extends Phaser.Scene {
     private map!: Phaser.Tilemaps.Tilemap // defined in create()
@@ -21,7 +22,9 @@ export class GameScene extends Phaser.Scene {
     }
 
     init(): void {
-        //
+        // apply mute setting
+        const playerData = loadPlayerData()
+        this.sound.setMute(playerData.preferences.mute)
     }
 
     create(): void {

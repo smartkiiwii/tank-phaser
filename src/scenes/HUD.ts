@@ -5,6 +5,7 @@ import MenuScreen from '@/objects/screen/StartScreen'
 import { MenuScene } from './MenuScene'
 import { GameScene } from './GameScene'
 import GameOverScreen from '@/objects/screen/GameOverScreen'
+import { loadPlayerData } from '@/objects/player/PlayerData'
 
 export const GameState = {
     PAUSED: 'PAUSED',
@@ -37,6 +38,12 @@ export default class HUD extends Phaser.Scene {
         })
 
         this.state = GameState.START_MENU
+    }
+
+    init() {
+        // apply mute setting
+        const playerData = loadPlayerData()
+        this.sound.setMute(playerData.preferences.mute)
     }
 
     create() {

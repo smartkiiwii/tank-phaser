@@ -2,9 +2,13 @@ import HUD, { GameEvent } from '@/scenes/HUD'
 import { DialogEvent } from '../container/dialog/Dialog'
 import GameScreen from './GameScreen'
 import { ButtonCallbackType } from '../container/button/Button'
+import { ToggleCallbackType } from '../container/button/Toggle'
+import { PlayerDataActions, loadPlayerData, setPlayerData } from '../player/PlayerData'
+import { GameScene } from '@/scenes/GameScene'
 
 export default class PauseScreen extends GameScreen {
     private pauseMenu: IDialog
+    private muteButton: IToggle
 
     constructor(hud: HUD) {
         super(hud)
@@ -53,6 +57,41 @@ export default class PauseScreen extends GameScreen {
             }),
         })
 
+        // mute button
+        this.muteButton = hud.make.toggle({
+            x: 0,
+            y: 0,
+            text: hud.make.bitmapText({
+                x: 0,
+                y: 3,
+                text: 'Mute',
+                font: 'font',
+                scale: 0.3,
+            }),
+            background: hud.make.nineslice({
+                x: 0,
+                y: 0,
+                key: 'ui',
+                frame: 'button-blue',
+                width: 120,
+                height: 50,
+                leftWidth: 5,
+                rightWidth: 5,
+                topHeight: 5,
+                bottomHeight: 5,
+            }),
+            activeKey: 'toggle-blue',
+            inactiveKey: 'toggle-off',
+            padding: 20,
+        })
+
+        this.muteButton.on(ToggleCallbackType.TOGGLE, (toggled: boolean) => {
+            const gameScene = this.hud.scene.get('GameScene') as GameScene
+            this.hud.sound.setMute(toggled)
+            gameScene.sound.setMute(toggled)
+            setPlayerData(PlayerDataActions.SET_MUTE, toggled)
+        })
+
         this.pauseMenu = hud.make
             .dialog({
                 x: 0,
@@ -83,7 +122,7 @@ export default class PauseScreen extends GameScreen {
                         topHeight: 10,
                         bottomHeight: 10,
                     }),
-                    children: [resumeButton, returnToMenuButton],
+                    children: [resumeButton, this.muteButton, returnToMenuButton],
                 }),
             })
             .hide()
@@ -102,6 +141,10 @@ export default class PauseScreen extends GameScreen {
     transitionIn(): Promise<void> {
         return new Promise((resolve, reject) => {
             try {
+                // apply mute settings
+                const playerData = loadPlayerData()
+                this.muteButton.setToggled(playerData.preferences.mute)
+
                 this.pauseMenu.once(DialogEvent.OPEN, () => {
                     resolve()
                 })

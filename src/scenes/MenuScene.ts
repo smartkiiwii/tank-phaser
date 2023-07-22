@@ -1,3 +1,4 @@
+import { loadPlayerData } from '@/objects/player/PlayerData'
 import HUD, { GameEvent } from './HUD'
 
 export class MenuScene extends Phaser.Scene {
@@ -19,6 +20,10 @@ export class MenuScene extends Phaser.Scene {
 
         this.startKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
         this.startKey.isDown = false
+
+        // apply mute setting
+        const playerData = loadPlayerData()
+        this.sound.setMute(playerData.preferences.mute)
     }
 
     create(): void {

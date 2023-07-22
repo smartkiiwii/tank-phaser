@@ -1,3 +1,5 @@
+import { loadPlayerData } from '@/objects/player/PlayerData'
+
 export class BootScene extends Phaser.Scene {
     private loadingBar!: Phaser.GameObjects.Graphics // defined in createLoadingGraphics()
     private progressBar!: Phaser.GameObjects.Graphics // defined in createLoadingGraphics()
@@ -41,6 +43,12 @@ export class BootScene extends Phaser.Scene {
 
         // load our package
         this.load.pack('preload', './assets/pack.json', 'preload')
+    }
+
+    init() {
+        // apply mute setting
+        const playerData = loadPlayerData()
+        this.sound.setMute(playerData.preferences.mute)
     }
 
     create() {
