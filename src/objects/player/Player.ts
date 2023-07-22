@@ -23,6 +23,10 @@ export default class Player extends Phaser.GameObjects.Image {
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys // defined in initImage()
     private shootingKey!: Phaser.Input.Pointer // defined in initImage()
 
+    // score
+    private hit!: number // defined in initImage()
+    private scoreText!: Phaser.GameObjects.Text // defined in initImage()
+
     public getBullets(): Phaser.GameObjects.Group {
         return this.bullets
     }
@@ -69,6 +73,22 @@ export default class Player extends Phaser.GameObjects.Image {
         this.cursors = this.scene.input.keyboard.createCursorKeys()
         this.shootingKey = this.scene.input.mousePointer
 
+        // score
+        this.hit = 0
+        this.scoreText = this.scene.add.text(
+            0,
+            0,
+            this.getScore().toString(),
+            {
+                fontFamily: 'Arial',
+                fontSize: 32,
+                fontStyle: 'bold',
+                color: '#ffffff',
+            },
+        ).setDepth(10)
+        this.on('scoreChange', this.updateScoreText, this)
+        this.emit('scoreChange')
+
         // physics
         this.scene.physics.world.enable(this)
     }
@@ -81,10 +101,15 @@ export default class Player extends Phaser.GameObjects.Image {
             this.lifeBar.y = this.y
             this.handleInput()
             this.handleShooting()
+
+            this.updateScoreText()
+            this.scoreText.x = this.x - this.scoreText.width / 2
+            this.scoreText.y = this.y - this.height / 2 - 40
         } else {
             this.destroy()
             this.barrel.destroy()
             this.lifeBar.destroy()
+            this.scoreText.destroy()
         }
     }
 
@@ -195,6 +220,7 @@ export default class Player extends Phaser.GameObjects.Image {
         if (this.health > 0) {
             this.health -= 0.05
             this.redrawLifebar()
+            this.emit('scoreChange')
         } else {
             this.scene.sound.play('tankExplode', { volume: 1 })
             this.health = 0
@@ -203,5 +229,18 @@ export default class Player extends Phaser.GameObjects.Image {
             const hud = this.scene.scene.get('HUD') as HUD
             hud.events.emit(GameEvent.GAME_OVER)
         }
+    }
+
+    public getScore(): number {
+        return Math.max(0, Math.floor(this.health * 10 + this.hit * 10))
+    }
+
+    public addScore(): void {
+        this.hit += 1
+        this.emit('scoreChange')
+    }
+
+    private updateScoreText(): void {
+        this.scoreText.setText(this.getScore().toString())
     }
 }

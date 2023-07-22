@@ -150,6 +150,10 @@ export class GameScene extends Phaser.Scene {
                     y: object.y ?? 0,
                     texture: 'tankBlue',
                 })
+
+                this.player.on('scoreChange', () => {
+                    this.events.emit('scoreChange', this.player.getScore())
+                })
             } else if (object.type === 'enemy') {
                 const enemy = new Enemy({
                     scene: this,
@@ -235,5 +239,10 @@ export class GameScene extends Phaser.Scene {
 
         bullet.destroy()
         enemy.updateHealth()
+        this.player.addScore()
+    }
+
+    public getPlayer(): Player {
+        return this.player
     }
 }

@@ -2,12 +2,53 @@ import HUD, { GameEvent } from '@/scenes/HUD'
 import { DialogEvent } from '../container/dialog/Dialog'
 import GameScreen from './GameScreen'
 import { ButtonCallbackType } from '../container/button/Button'
+import { GameScene } from '@/scenes/GameScene'
+import { loadPlayerData, setPlayerData } from '../player/PlayerData'
 
 export default class GameOverScreen extends GameScreen {
     private gameOverMenu: IDialog
+    private score: number
+    private highscoreText: Phaser.GameObjects.Text
 
     constructor(hud: HUD) {
         super(hud)
+
+        const gameScene = hud.scene.get('GameScene') as GameScene
+
+        // score text
+        this.score = 0
+        const scoreText = hud.make.text({
+            x: 0,
+            y: 0,
+            text: 'Score: 0',
+            style: {
+                font: 'bold 20px Arial',
+                color: '#000000',
+                align: 'center',
+            },
+        })
+
+        this.add(scoreText)
+
+        // highscore text
+        const playerData = loadPlayerData()
+        this.highscoreText = hud.make.text({
+            x: 0,
+            y: 0,
+            text: `Highscore: ${playerData.highscore}`,
+            style: {
+                font: 'bold 20px Arial',
+                color: '#000000',
+                align: 'center',
+            },
+        })
+
+        this.add(this.highscoreText)
+
+        gameScene.events.on('scoreChange', (score: number) => {
+            this.score = score
+            scoreText.setText(`Score: ${score.toString()}`)
+        })
 
         const retryButton = hud.make.button({
             text: hud.make.bitmapText({
@@ -83,7 +124,12 @@ export default class GameOverScreen extends GameScreen {
                         topHeight: 10,
                         bottomHeight: 10,
                     }),
-                    children: [retryButton, returnToMenuButton],
+                    children: [
+                        scoreText,
+                        this.highscoreText,
+                        retryButton, 
+                        returnToMenuButton
+                    ],
                 }),
             })
             .hide()
@@ -102,6 +148,16 @@ export default class GameOverScreen extends GameScreen {
     transitionIn(): Promise<void> {
         return new Promise((resolve, reject) => {
             try {
+                const playerData = loadPlayerData()
+                let highscore = playerData.highscore
+
+                if (this.score > highscore) {
+                    highscore = this.score
+                    setPlayerData("SET_HIGHSCORE", this.score)
+                }
+
+                this.highscoreText.setText(`Highscore: ${highscore}`)
+
                 this.gameOverMenu.once(DialogEvent.OPEN, () => {
                     resolve()
                 })
