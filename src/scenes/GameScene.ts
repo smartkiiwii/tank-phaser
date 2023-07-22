@@ -177,7 +177,7 @@ export class GameScene extends Phaser.Scene {
             throw new Error('Bullet is not instance of Bullet')
         }
 
-        this.sound.play('bulletHitWall', {volume: 0.01})
+        this.sound.play('bulletHitWall', { volume: 0.01 })
 
         bullet.destroy()
     }
@@ -194,7 +194,7 @@ export class GameScene extends Phaser.Scene {
             throw new Error('Obstacle is not instance of Obstacle')
         }
 
-        this.sound.play('bulletHitWall', {volume: 0.01})
+        this.sound.play('bulletHitWall', { volume: 0.01 })
 
         bullet.destroy()
     }

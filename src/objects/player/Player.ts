@@ -1,3 +1,4 @@
+import HUD, { GameEvent } from '@/scenes/HUD'
 import Bullet from '../bullet/Bullet'
 import { IImageConstructor } from '@/interfaces/image.interface'
 
@@ -174,7 +175,7 @@ export default class Player extends Phaser.GameObjects.Image {
                     })
                 )
 
-                this.scene.sound.play('bulletFire', {volume: 0.1})
+                this.scene.sound.play('bulletFire', { volume: 0.1 })
 
                 this.lastShoot = this.scene.time.now + 80
             }
@@ -195,10 +196,12 @@ export default class Player extends Phaser.GameObjects.Image {
             this.health -= 0.05
             this.redrawLifebar()
         } else {
-            this.scene.sound.play('tankExplode', {volume: 1})
+            this.scene.sound.play('tankExplode', { volume: 1 })
             this.health = 0
             this.active = false
-            this.scene.scene.start('MenuScene')
+
+            const hud = this.scene.scene.get('HUD') as HUD
+            hud.events.emit(GameEvent.GAME_OVER)
         }
     }
 }

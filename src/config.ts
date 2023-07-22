@@ -1,5 +1,6 @@
 import { BootScene } from './scenes/BootScene'
 import { GameScene } from './scenes/GameScene'
+import HUD from './scenes/HUD'
 import { MenuScene } from './scenes/MenuScene'
 
 export const GameConfig: Phaser.Types.Core.GameConfig = {
@@ -14,7 +15,7 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
     zoom: 0.6,
     type: Phaser.AUTO,
     parent: 'game',
-    scene: [BootScene, MenuScene, GameScene],
+    scene: [BootScene, MenuScene, GameScene, HUD],
     input: {
         keyboard: true,
     },
@@ -25,6 +26,6 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
             debug: false,
         },
     },
-    backgroundColor: '#000000',
+    backgroundColor: '#7cbe3a',
     render: { pixelArt: false, antialias: true },
 }

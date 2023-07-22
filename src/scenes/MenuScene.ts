@@ -1,3 +1,5 @@
+import HUD, { GameEvent } from './HUD'
+
 export class MenuScene extends Phaser.Scene {
     private startKey!: Phaser.Input.Keyboard.Key // defined in init()
     private bitmapTexts: Phaser.GameObjects.BitmapText[]
@@ -20,29 +22,16 @@ export class MenuScene extends Phaser.Scene {
     }
 
     create(): void {
-        this.bitmapTexts.push(
-            this.add.bitmapText(
-                this.sys.canvas.width / 2 - 120,
-                this.sys.canvas.height / 2,
-                'font',
-                'PRESS S TO PLAY',
-                30
-            )
-        )
-
-        this.bitmapTexts.push(
-            this.add.bitmapText(
-                this.sys.canvas.width / 2 - 120,
-                this.sys.canvas.height / 2 - 100,
-                'font',
-                'TANK',
-                100
-            )
-        )
+        // bg
+        this.add
+            .rectangle(0, 0, this.cameras.main.width, this.cameras.main.height, 0x7cbe3a)
+            .setOrigin(0, 0)
     }
 
     update(): void {
         if (this.startKey.isDown) {
+            const hud = this.scene.get('HUD') as HUD
+            hud.events.emit(GameEvent.RESUME)
             this.scene.start('GameScene')
         }
     }

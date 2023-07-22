@@ -1,0 +1,103 @@
+import HUD, { GameEvent } from '@/scenes/HUD'
+import GameScreen from './GameScreen'
+import { ButtonCallbackType } from '../container/button/Button'
+
+export default class MenuScreen extends GameScreen {
+    private menu: IPanel
+    constructor(hud: HUD) {
+        const startButton = hud.make.button({
+            text: hud.make.bitmapText({
+                x: 0,
+                y: 3,
+                text: 'Start',
+                font: 'font',
+                scale: 0.3,
+            }),
+            background: hud.make.nineslice({
+                x: 0,
+                y: 0,
+                key: 'ui',
+                frame: 'button-blue',
+                width: 90,
+                height: 50,
+                leftWidth: 5,
+                rightWidth: 5,
+                topHeight: 5,
+                bottomHeight: 5,
+            }),
+        })
+
+        startButton.on(ButtonCallbackType.CLICK, () => {
+            hud.events.emit(GameEvent.START)
+        })
+
+        const panel = hud.make.panel({
+            x: 0,
+            y: 0,
+            padding: 20,
+            spacing: 10,
+            title: hud.make.bitmapText({
+                x: 0,
+                y: 0,
+                text: 'TANK',
+                font: 'font',
+                scale: 1,
+            }),
+            background: hud.make.nineslice({
+                x: 0,
+                y: 0,
+                key: 'ui',
+                frame: 'panel-blue',
+                width: 300,
+                height: 200,
+                leftWidth: 10,
+                rightWidth: 10,
+                topHeight: 10,
+                bottomHeight: 10,
+            }),
+            children: [startButton],
+        })
+
+        super(hud, {
+            children: [panel],
+        })
+
+        this.menu = panel
+
+        Phaser.Display.Align.In.Center(panel, this.zone, 0, 50)
+    }
+    transitionIn(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            try {
+                this.hud.add.tween({
+                    targets: this.menu,
+                    y: { from: this.menu.y - 10, to: this.menu.y },
+                    alpha: { from: 0, to: 1 },
+                    duration: 100,
+                    onComplete: () => {
+                        resolve()
+                    },
+                })
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+    transitionOut(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            try {
+                this.hud.add.tween({
+                    targets: this.menu,
+                    y: { from: this.menu.y, to: this.menu.y + 10 },
+                    alpha: { from: 1, to: 0 },
+                    duration: 100,
+                    onComplete: () => {
+                        resolve()
+                    },
+                })
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+}
