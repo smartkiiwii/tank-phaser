@@ -4,6 +4,7 @@ import RunningScreen from '@/objects/screen/RunningScreen'
 import MenuScreen from '@/objects/screen/StartScreen'
 import { MenuScene } from './MenuScene'
 import { GameScene } from './GameScene'
+import GameOverScreen from '@/objects/screen/GameOverScreen'
 
 export const GameState = {
     PAUSED: 'PAUSED',
@@ -42,7 +43,7 @@ export default class HUD extends Phaser.Scene {
         this.huds = {
             [GameState.PAUSED]: new PauseScreen(this),
             [GameState.RUNNING]: new RunningScreen(this),
-            [GameState.GAME_OVER]: new MenuScreen(this), // placeholder
+            [GameState.GAME_OVER]: new GameOverScreen(this), // placeholder
             [GameState.START_MENU]: new MenuScreen(this),
         }
 
@@ -114,7 +115,13 @@ export default class HUD extends Phaser.Scene {
             throw new Error('Cannot quit game when not paused')
         }
 
-        this.transition(GameState.PAUSED, GameState.START_MENU)
+        if (this.state === GameState.PAUSED) {
+            this.transition(GameState.PAUSED, GameState.START_MENU)
+        }
+
+        if (this.state === GameState.GAME_OVER) {
+            this.transition(GameState.GAME_OVER, GameState.START_MENU)
+        }
 
         const gameScene = this.scene.get('GameScene') as GameScene
 
