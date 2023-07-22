@@ -99,7 +99,9 @@ export class GameScene extends Phaser.Scene {
             return true
         }, this)
 
-        this.cameras.main.startFollow(this.player)
+        this.cameras.main
+            .startFollow(this.player)
+            .setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
     }
 
     update(): void {
